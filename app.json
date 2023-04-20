@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Porco",
+    "slug": "Porco",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
