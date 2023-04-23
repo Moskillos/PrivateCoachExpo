@@ -6,16 +6,25 @@ import { EnergyPianification } from "../../components/profile/energy-pianificati
 import { UserCustomProfile } from "../../components/profile/user-custom-profile";
 import { settingsSliceActions } from "../../store/settings-slice";
 import { SettingScreens } from "../../components/SettingScreens";
+import { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import CustomButton from "../../ui/CustomButton";
 
 const ProfileScreen = ({navigation}) => {
     const dispatch = useDispatch()
     const services = useSelector(state => state.service)
     const settings = useSelector(state => state.settings)   
-    const diary = useSelector(state => state.diary)
-    console.log(diary)
+    const diaryState = useSelector(state => state.diary)
  
-    const addService = () => {
-        navigation.navigate('Home')
+    const addService = async () => {
+        // navigation.navigate('Home')
+        try{
+            const diary = await AsyncStorage.getItem('diary')
+        console.log(diaryState)
+        } catch(e){
+            console.log(e)
+        }
+        
     }
 
     const handleEnergy = () => {
@@ -29,6 +38,11 @@ const ProfileScreen = ({navigation}) => {
     const closeSettings = () => {
         dispatch(settingsSliceActions.closeSettings())
     }
+
+    const restStorage = async () => {
+        await AsyncStorage.clear()
+    }
+
     
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -62,7 +76,7 @@ const ProfileScreen = ({navigation}) => {
                     <AntDesign name="pluscircleo" size={28} color="black" />
                 </Pressable>}
             {services.servizi.length > 0 &&<ActiveService servicesProps={services}/>}            
-           
+            <CustomButton text={'wewajò'} onPress={restStorage}/>
         </ScrollView>
     )
 }

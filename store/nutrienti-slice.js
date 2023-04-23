@@ -54,7 +54,6 @@ const nutrientiSlice = createSlice({
         },
         getStorageNutrients(state, action){
             state = action.payload
-            console.log(action.payload)
         }
     },
     extraReducers: (builder) => {

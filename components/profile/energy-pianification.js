@@ -9,20 +9,9 @@ export const EnergyPianification = () => {
     const bm = useSelector(state => state.body.items.metBasale)
     const bodyState = useSelector(state => state.body.items)
     const dispatch = useDispatch()
-    const currentDate = new Date()
-    
-    useEffect(() => {        
-        setInterval(() => {
-                if(currentDate.getHours() === 0 && currentDate.getMinutes === 0){
-                    const date = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`
-                    dispatch(diarySliceAction.addDay({
-                        date: date,
-                        body: bodyState,
-                        nutrienti: nutrienti
-                    }))
-                }           
-        }, 60000)
-    }, []);
+    const diary = useSelector(state => state.diary);
+    const giorni = diary.items.giorni
+    console.log(giorni)
 
     let totalKcalConsumed = 0
     let totalKcal = 0

@@ -5,6 +5,7 @@ import CustomButton from "../../ui/CustomButton";
 import {Ionicons} from '@expo/vector-icons'
 import { useDispatch } from "react-redux";
 import { userSliceActions } from "../../store/user-slice";
+import { globalColor } from "../../utils/globalColor";
 
 function RegistrationForm({nav}){
     const dispatch = useDispatch()
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     form: {
         width: '80%',
         height: '80%',
-        backgroundColor: 'blue',
+        backgroundColor: globalColor.primaryBK,
         justifyContent: 'center',
         alignItems: 'center',
         
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     text: {
         marginBottom: 40,
         color: 'white',
-        fontSize: 22
+        fontSize: 26
     },
     input: {
         width: '60%'
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         marginTop: 30,
-        backgroundColor: 'green'
+        backgroundColor: globalColor.btn
     },
     fb: {
         color: 'white',

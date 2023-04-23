@@ -1,5 +1,6 @@
 import {View, Text, StyleSheet} from 'react-native'
 import RegistrationForm from '../components/forms/RegistrationForm'
+import { globalColor } from '../utils/globalColor'
 
 const RegistrationScreen = ({navigation}) => {
     return <View style={styles.container}>        
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'black',
+        backgroundColor: globalColor.specialBK,
         
     }
 })

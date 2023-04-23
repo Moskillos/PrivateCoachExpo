@@ -27,7 +27,8 @@ export const TrainingCard = ({onPress}) => {
     }
 
     const setBodyExecise = () => {
-        dispatch(bodySliceActions.addEsercizio(training))
+        
+        // dispatch(bodySliceActions.addEsercizio(training))
         dispatch(diarySliceAction.addBody(training))
     }
 

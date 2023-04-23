@@ -9,6 +9,7 @@ import { SelectQuantity } from "../SelectQuantity";
 import { AntDesign } from '@expo/vector-icons';
 import { useDispatch, useSelector } from "react-redux";
 import { nutrientiSliceActions } from "../../store/nutrienti-slice";
+import { diarySliceAction } from "../../store/diary-slice";
 
 export const InsertFood = ({onCloseModal}) => {
     const [food, setFood] = useState([]);
@@ -56,7 +57,7 @@ export const InsertFood = ({onCloseModal}) => {
         FIBT: foodChoise.nutrients.FIBTG * weight / 100, 
         PROCNT: foodChoise.nutrients.PROCNT * weight / 100
     }
-        dispatch(nutrientiSliceActions.addNutrients(nutri));
+        dispatch(diarySliceAction.addNutrients(nutri));
         setModeQuantity(false)
     }
 

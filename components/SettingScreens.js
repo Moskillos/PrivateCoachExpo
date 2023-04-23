@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { Pressable, StyleSheet, Text, View} from "react-native"
 import { useDispatch } from "react-redux"
-import { bodySliceActions } from "../store/body-slice"
 import CustomButton from "../ui/CustomButton"
 import Input from "../ui/Input"
 import { globalColor } from "../utils/globalColor"
+import { diarySliceAction } from "../store/diary-slice"
 
 export const SettingScreens = () => {
     const [weight, setWeight] = useState(0);
@@ -19,7 +19,7 @@ export const SettingScreens = () => {
     }
 
     const sendWeight = () => {
-        dispatch(bodySliceActions.setPeso(weight))
+        dispatch(diarySliceAction.setPeso(weight))
         setWeightMode(false)
     }
 

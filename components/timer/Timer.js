@@ -65,7 +65,6 @@ export const Timer = ({title, workTime, restTime, timerList, deleteItem}) => {
             startRound()
         }
         if(monsters === workTime){
-            console.log('are equals')
             clearInterval(rest);
             setRest(null);
             setMonsters(0);

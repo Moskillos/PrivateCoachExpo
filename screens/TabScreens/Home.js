@@ -6,14 +6,13 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchNutrients } from "../../store/nutrienti-slice"
 import { fetchBody } from "../../store/body-slice";
-import { newDay } from "../../store/diary-slice";
+import { fetchDiary, newDay } from "../../store/diary-slice";
 
 const Home = () => {
     const dispatch = useDispatch();
 
-    useEffect(() => {
-      dispatch(fetchNutrients());
-      dispatch(fetchBody())
+    useEffect(() => {      
+      dispatch(fetchDiary())
     }, [dispatch])
     return (
         <ScrollView>
