@@ -7,11 +7,13 @@ import { NutrientCard } from "../card/NutrientCard";
 import { globalColor } from "../../utils/globalColor";
 import { SelectQuantity } from "../SelectQuantity";
 import { AntDesign } from '@expo/vector-icons';
-import { useDispatch, useSelector } from "react-redux";
-import { nutrientiSliceActions } from "../../store/nutrienti-slice";
+import { useDispatch } from "react-redux";
 import { diarySliceAction } from "../../store/diary-slice";
 
 export const InsertFood = ({onCloseModal}) => {
+    const APP_ID = 'a19bd3ee'
+    const APP_KEY = '3c3279db08bd0e0ee450a50bcd1d8fab'	
+    const EDAMAM = 'https://api.edamam.com/api/food-database/v2/parser?app_id='+ APP_ID + '&app_key=' + APP_KEY 
     const [food, setFood] = useState([]);
     const [foodChoise, setFoodChoise] = useState({});
     const [foodSearch, setFoodSearch] = useState('');
@@ -26,13 +28,12 @@ export const InsertFood = ({onCloseModal}) => {
     async function getFood() {
         try{
         setLoading(true)
-        const url = 'https://private-coach-server.onrender.com/detail';            
+        const url = EDAMAM;            
         
-        const response = await axios.post(url, {
-                food: foodSearch
-            })
+        const response = await axios.get(url + '&ingr='+ foodSearch)
         
         const foodHints = response.data.hints
+
         setFood(foodHints)
         setLoading(false)
         }

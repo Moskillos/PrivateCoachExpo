@@ -1,26 +1,19 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+
 const initialState = {
-    status: 'idle',
-    error: null,
-    items: {
-      peso: null,
-      metBasale: null,
-      giorni: [
-        
-      ]
-    }
-};
+  giorni: [],
+  metBasale: null,
+  peso: null
+}
 
 export const fetchDiary = createAsyncThunk("diary/fetchDiary", async () => {
     try {
-      const serializedState = await AsyncStorage.getItem('diary');
-      console.log(serializedState)
+      const serializedState = await AsyncStorage.getItem('diary'); 
       if (serializedState !== null) {
         return JSON.parse(serializedState);
-      }
-      return initialState;
+      } 
     } catch (error) {
       console.log(error);
       throw error;
@@ -31,42 +24,36 @@ const diarySlice = createSlice({
     name: 'diary',
     initialState,
     reducers: {
-        addDay(state, action){
-            console.log(action.payload)
-        },
         addBody(state, action){
           
             const obj = {
               date: `${new Date().getFullYear()}-${new Date().getMonth() +1}-${new Date().getDate()}`,
               esercizi: [
                   action.payload
-                ]
-              
+                ],
+              nutrienti: []
             }
 
-            if(state.items.giorni.length === 0){
-              console.log('1', obj)
-              state.items.giorni.push(obj)
+            if(state.giorni.length === 0){
+              state.giorni.push(obj)
             } else {
-              for(let giorno of state.items.giorni){
+              for(let giorno of state.giorni){
               if(giorno.date === obj.date){
-                console.log('2', obj)
 
                 giorno.esercizi.push(action.payload)
                };
               if(giorno.date !== obj.date){
-                console.log('3', obj)
 
-                state.items.giorni.push(obj)
+                state.giorni.push(obj)
               }
               }
             } 
 
-          saveStateToStorage(state.items)
+          saveStateToStorage(state)
         },
         setPeso(state, action){
-          state.items.peso = action.payload,
-          state.items.metBasale = action.payload * 24
+          state.peso = action.payload,
+          state.metBasale = action.payload * 24
           saveStateToStorage(state)
         },
          
@@ -74,41 +61,44 @@ const diarySlice = createSlice({
           const currentDate = `${new Date().getFullYear()}-${new Date().getMonth() +1}-${new Date().getDate()}`
           const obj = {
             date: currentDate,
-            nutrienti: {
+            nutrienti: [],
+            esercizi: []
+          }
+          const meal = {
               name : action.payload.name,
               kcal : action.payload.ENERC_KCAL,
               proteine : action.payload.PROCNT,
               grassi : action.payload.FAT,
               fibre :  action.payload.FIBT,
               carboidrati : action.payload.CHOCDF,
-            }
           }
-          if(state.items.giorni.length === 0){
-            state.items.giorni.push(obj)
+          obj.nutrienti.push(meal)
+          if(state.giorni.length === 0){
+            state.giorni.push(obj)
           } else {
-            for(let giorno of state.items.giorni){
+            for(let giorno of state.giorni){
             if(giorno.date === obj.date){
               giorno.nutrienti.push(action.payload)
              };
             if(giorno.date !== obj.date){
-              state.items.giorni.push(obj)
+              state.giorni.push(obj)
             }
             }
           }          
-          saveStateToStorage(state.items)
+          saveStateToStorage(state)
       },        
     },
     extraReducers: (builder) => {
         builder
         .addCase(fetchDiary.pending, (state) => {
-            state.status = "loading";
+           
           })
-        .addCase(fetchDiary.fulfilled, (state, action) => {
-            state.status = "succeeded";
-            state.items = action.payload;
+        .addCase(fetchDiary.fulfilled, (state, action) => { 
+            state.giorni = action.payload.giorni;
+            state.metBasale = action.payload.metBasale;
+            state.peso = action.payload.peso;
           })
-        .addCase(fetchDiary.rejected, (state, action) => {
-            state.status = "failed";
+        .addCase(fetchDiary.rejected, (state, action) => {          
             state.error = action.error.message;
           })
     }

@@ -1,12 +1,10 @@
-import { View, StyleSheet, ScrollView, Pressable } from "react-native"
+import { View, StyleSheet, ScrollView} from "react-native"
 import { CalorieWidget } from "../../components/card/CalorieWidget"
 import ServicesScreen from "../../components/ServicesScreen"
 import { TimerWidget } from "../../components/timer/TimerWidget"
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchNutrients } from "../../store/nutrienti-slice"
-import { fetchBody } from "../../store/body-slice";
-import { fetchDiary, newDay } from "../../store/diary-slice";
+import { fetchDiary } from "../../store/diary-slice";
 
 const Home = () => {
     const dispatch = useDispatch();

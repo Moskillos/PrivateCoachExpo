@@ -6,25 +6,17 @@ import { EnergyPianification } from "../../components/profile/energy-pianificati
 import { UserCustomProfile } from "../../components/profile/user-custom-profile";
 import { settingsSliceActions } from "../../store/settings-slice";
 import { SettingScreens } from "../../components/SettingScreens";
-import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomButton from "../../ui/CustomButton";
+import { NutrientsGrafic } from "../../components/NutrientsGrafic";
 
 const ProfileScreen = ({navigation}) => {
     const dispatch = useDispatch()
     const services = useSelector(state => state.service)
-    const settings = useSelector(state => state.settings)   
-    const diaryState = useSelector(state => state.diary)
+    const settings = useSelector(state => state.settings)  
  
     const addService = async () => {
-        // navigation.navigate('Home')
-        try{
-            const diary = await AsyncStorage.getItem('diary')
-        console.log(diaryState)
-        } catch(e){
-            console.log(e)
-        }
-        
+        navigation.navigate('Home')      
     }
 
     const handleEnergy = () => {
@@ -40,7 +32,7 @@ const ProfileScreen = ({navigation}) => {
     }
 
     const restStorage = async () => {
-        await AsyncStorage.clear()
+        await AsyncStorage.removeItem('diary')
     }
 
     
@@ -69,14 +61,19 @@ const ProfileScreen = ({navigation}) => {
             <UserCustomProfile />
             <Pressable style={styles.energyContainer} onPress={handleEnergy}>
                 <EnergyPianification />  
-            </Pressable>
-                      
+            </Pressable>                                
             {services.servizi.length === 0 &&<Pressable onPress={addService} style={styles.containerNoServices}>
                     <Text style={styles.text}>Non hai servizi attivi</Text>
                     <AntDesign name="pluscircleo" size={28} color="black" />
                 </Pressable>}
             {services.servizi.length > 0 &&<ActiveService servicesProps={services}/>}            
             <CustomButton text={'wewajò'} onPress={restStorage}/>
+            <NutrientsGrafic />
+            <View style={styles.graf}>
+                <View style={styles.grafColumn}>
+
+                </View>
+            </View>
         </ScrollView>
     )
 }
@@ -131,5 +128,14 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 0,
         top: 0
+    },
+    graf: {
+        height: 200
+    },
+    grafColumn:{
+        backgroundColor: 'red',
+        width: 5,
+        height : 100
     }
+    
 })

@@ -4,7 +4,6 @@ import { globalColor } from "../../utils/globalColor"
 import { AntDesign } from '@expo/vector-icons';
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { bodySliceActions } from "../../store/body-slice";
 import CustomButton from "../../ui/CustomButton";
 import { diarySliceAction } from "../../store/diary-slice";
 
@@ -27,8 +26,6 @@ export const TrainingCard = ({onPress}) => {
     }
 
     const setBodyExecise = () => {
-        
-        // dispatch(bodySliceActions.addEsercizio(training))
         dispatch(diarySliceAction.addBody(training))
     }
 

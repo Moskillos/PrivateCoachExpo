@@ -1,24 +1,29 @@
 import { StyleSheet, View, Text, Pressable } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
 import { useSelector } from "react-redux";
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
+import { MaterialIcons } from '@expo/vector-icons';
 
 export const CalorieWidget = () => {
-    const nutrienti = useSelector(state => state.nutrienti.items) 
-    const kcalConsumed = useSelector(state => state.body.items.esercizio)
+    const giorni = useSelector(state => state.diary.giorni) 
     const navigation = useNavigation()
 
-
-    let totalKcalConsumed = 0
-    let totalKcal = 0
+    const currentDate = `${new Date().getFullYear()}-${new Date().getMonth() +1}-${new Date().getDate()}`
+    const todayEnergy = giorni?.filter(giorno => giorno.date === currentDate)
     
-    for (const esercizio of kcalConsumed){
-        totalKcalConsumed += +esercizio.kcal
-    }
-    for(const alimento of nutrienti){
-        totalKcal += alimento.kcal
-    }
+    let initialKcalExpenses = 0
+    let initialKcalAssumed = 0
+
+
+    if(giorni.length !== 0){
+       for(const esercizio of todayEnergy[0].esercizi){
+    initialKcalAssumed += +esercizio.kcal
+   }
+   
+    for(const kcal of todayEnergy[0].nutrienti){
+    initialKcalExpenses += +kcal.ENERC_KCAL
+    } 
+    }   
 
     const handleEnergy = () => {
         navigation.navigate('HandleEnergyPage')
@@ -31,14 +36,14 @@ export const CalorieWidget = () => {
                 <Ionicons name="flame" size={40} color="red" />
                 <View style={styles.textContainer}>
                     <Text style={styles.text}>Calorie </Text>
-                    <Text style={styles.text}>{totalKcal ? totalKcal.toFixed(2) : 0}</Text>
+                    <Text style={styles.text}>{initialKcalAssumed ? initialKcalAssumed.toFixed(2) : 0}</Text>
                 </View>                
             </View>
             <View style={styles.widgetContainer}>
             <MaterialIcons name="fitness-center" size={40} color="white" />
                 <View style={styles.textContainer}>
                     <Text style={styles.text}>Esercizio</Text>
-                    <Text style={styles.text}>{totalKcalConsumed ? totalKcalConsumed : 0}</Text>
+                    <Text style={styles.text}>{initialKcalExpenses ? initialKcalExpenses : 0}</Text>
                 </View>                
             </View>
         </Pressable>

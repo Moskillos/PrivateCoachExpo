@@ -45,14 +45,15 @@ export const HandleEnergyPage = () => {
                 </View>
                 
             </View>
-             
-            </Modal>         
+           
+            </Modal>
+            
             <FlatList
                 data={timeMeal}
                 keyExtractor={item => item.title}
                 renderItem={renderMealBox}
                 numColumns={2}
-            />
+            />            
             <Modal animationType="slide"
             transparent={true} 
             visible={trainingModal}>
@@ -100,5 +101,7 @@ const styles = StyleSheet.create({
     text: {
         color: 'white'
     },
-   
+    nutrientList: {
+        
+    }
 })

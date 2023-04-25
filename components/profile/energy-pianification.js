@@ -1,27 +1,33 @@
-import { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native"
 import {  useDispatch, useSelector } from "react-redux";
-import { diarySliceAction } from "../../store/diary-slice";
 
-export const EnergyPianification = () => {  
-    const nutrienti = useSelector(state => state.nutrienti.items) 
-    const kcalConsumed = useSelector(state => state.body.items.esercizio)
-    const bm = useSelector(state => state.body.items.metBasale)
-    const bodyState = useSelector(state => state.body.items)
-    const dispatch = useDispatch()
-    const diary = useSelector(state => state.diary);
-    const giorni = diary.items.giorni
-    console.log(giorni)
-
+export const EnergyPianification = () => {
+    const giorni = useSelector(state => state.diary.giorni)
+    const bm = useSelector(state => state.diary.metBasale)
+    
+    let nutrienti
+    let kcalConsumed
     let totalKcalConsumed = 0
     let totalKcal = 0
-    
-    for (const esercizio of kcalConsumed){
+
+    const currentDay = `${new Date().getFullYear()}-${new Date().getMonth() +1}-${new Date().getDate()}`
+
+    if(giorni.lenght !== 0){
+        for(let giorno of giorni){
+        if(giorno.date === currentDay){
+            kcalConsumed = giorno.esercizi
+            nutrienti = giorno.nutrienti
+        }
+
+        for (const esercizio of kcalConsumed){
         totalKcalConsumed += +esercizio.kcal
+    }    
+
+        for(const alimento of nutrienti){
+        totalKcal += +alimento.ENERC_KCAL       
     }
-    for(const alimento of nutrienti){
-        totalKcal += alimento.kcal
     }
+    }   
 
     const calorieDaily = bm + totalKcal - totalKcalConsumed
 

@@ -1,112 +1,71 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { useEffect, useState } from "react"
-import { StyleSheet, View } from "react-native"
-import {Agenda} from 'react-native-calendars';
-import CustomButton from "../../ui/CustomButton"
-import { Text } from "react-native";
+import React, { useState } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import { Agenda } from 'react-native-calendars';
+import { useSelector } from 'react-redux';
 
-export const Diary = () => {
-    
-  
-    const [items, setItems] = useState({});
-    useEffect(() => {
-        async function getDiary() {
-            try{
-                const diary = await AsyncStorage.getItem('diary')
-                if(diary.items = null){                    
-                    setItems(diary.items)
-                }
-                
-            }
-            catch(e){
-                setItems([])
-            }
-        }
-        getDiary()
-    },[])
-
-    const avesseraEsse = [
-      {
-        date: '2023-04-23',
-        title: 'Cena',
-        startTime: '10:00 AM',
-        endTime: '11:00 AM'
-      },
-      {
-        date: '2023-04-21',
-        title: 'Pranzo',
-          startTime: '10:00 AM',
-          endTime: '11:00 AM'
-      },
-    ]
-    
+export function Diary() {
+  const [items, setItems] = useState({});
+  const giorni = useSelector(state => state.diary.giorni)
+  console.log(giorni[0].esercizi)
+  // Funzione chiamata quando viene selezionato un giorno
   const loadItems = (day) => {
-    // Simulate fetching data from an API
-    setTimeout(async() => {
-      const newItems = {};
-      
-      for(let i of avesseraEsse){
-        if(i.date === day.dateString){
-        newItems[day.dateString] = [
-        {
-          title: i.title,
-          startTime: i.startTime,
-          endTime: i.endTime
-        }
-        
-      ];
-      }
-      }
-      
-     
-
-      setItems(newItems);
-    }, 1000);
+    // Effettua la chiamata API per caricare gli eventi del giorno selezionato
+    // e aggiorna lo stato dell'agenda con i dati ottenuti
+    setItems({
+      [day.dateString]: giorni
+    });
   };
-  console.log(items)
+
+  // Funzione per renderizzare un evento nell'agenda
   const renderItem = (item) => {
     return (
-      <View style={{ backgroundColor: 'white', padding: 10 }}>
-        <Text>{item.title}</Text>
-        <Text>{item.startTime} - {item.endTime}</Text>
+      <View style={styles.item}>
+        <Text style={styles.title}>{item.date}</Text>
+        {item.esercizi.map(esercizio => {
+          return <View style={styles.item}>
+            <Text style={styles.title}>
+              cascas
+            </Text>
+            </View>
+        }) }
       </View>
     );
-  };
-
-  const renderEmptyDate = () => {
-    return (
-      <View style={{ backgroundColor: 'white', padding: 10 }}>
-        <Text>No events for this day</Text>
-      </View>
-    );
-  };
-
-  const rowHasChanged = (r1, r2) => {
-    return r1.title !== r2.title;
   };
 
   return (
-    <Agenda
-      items={items}
-      loadItemsForMonth={loadItems}
-      selected={'2023-04-23'}
-      renderItem={renderItem}
-      renderEmptyDate={renderEmptyDate}
-      rowHasChanged={rowHasChanged}
-    />
+    <View style={styles.container}>
+      <Agenda
+        items={items}
+        loadItemsForMonth={loadItems}
+        selected={'2023-04-25'}
+        renderItem={renderItem}
+      />
+    </View>
   );
 }
+
 const styles = StyleSheet.create({
-    container: {
-       
-    },
-    energyPian: {
-        width: '100%',
-        alignItems: 'center',
-        marginVertical: 10
-    },
-    
-    
-})
-
-
+  container: {
+    flex: 1,
+  },
+  item: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 10,
+    marginRight: 10,
+    marginTop: 17,
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  description: {
+    fontSize: 14,
+    marginBottom: 5,
+  },
+  time: {
+    fontSize: 12,
+    color: '#999',
+  },
+});
